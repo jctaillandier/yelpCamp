@@ -1,15 +1,42 @@
 <% include partials/header  %>
-        <h1>Campgrounds</h1>
 
-        <a href='/campground/new'>Add a new Campground</a>
-        <% data.forEach(function(camp){ %>
-            <div>
-                <h4><%=camp.name %></h4>
-                <img src='<%= camp.image %>'> 
 
+    <div class='container'>  <!-- Container class gives space on both side -->
+        <header class='jumbotron'>  <!-- Jumbotron is that big thing, default grey, with some styling inside -->
+            <div class='container'>
+                <h1>Welcome to Yelp Camp</h1>
+
+                <p> View our Top Campgrounds from around the world</p>
+                <p>
+                    <a href='/campgrounds/new' class='btn btn-primary btn-lg'>Add a new Campground</a>
+                </p>
             </div>
-        <%}); %>
+        </header>
+
+        <div class='row'>   <!-- Rows div nested in container divs to create grids-->
+            <div class='col-lg-12'>
+                <h3>Most Popular</h3>
+            </div>
+        </div>
+
+        <DIV class='row text-center' id='campGrid'>
+            <% data.forEach(function(camp){ %>
+                <!-- Bstrap splits screen into 12 col, you decide separate those in chunks of how many -->
+                <div class='col-md-3 col-sm-6' >   
+                    <div class='thumbnail'> <!-- thumbnail is BS class resizing imgs-->
+                        <img src='<%= camp.image %>'> 
+                        <div class='caption'> <!-- Also Bstrap class-->
+                            <h4><%=camp.name %></h4>
+                        </div>
+                    </div>
+                </div>
+            <%}); %>
+
+        </div>
+
+
         <a href='/'>Go back</a>
 
+    </div>
         
 <% include partials/footer  %>

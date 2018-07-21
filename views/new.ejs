@@ -1,15 +1,33 @@
 <% include partials/header  %>
 
-    <h1>Create a new Campground</h1>
-    <div>
-        <form action='/campgrounds' method='POST'>
+    <div class='container'>  <!-- Container class gives space on both side -->
+            <header class='jumbotron'>  <!-- Jumbotron is that big thing, default grey, with some styling inside -->
+                <div class='container' id='addCampJumbotron'>
+                    <h1>Create a new Campground</h1>
 
-                Campground name: <input name='name' type='textbox' placeholder='Saint-Nowhere'><br>
-                Campground Image url: <input name='image' type='textbox' placeholder='image URL'><br>
+                    <p>Enter the name of the Camp site, and add the url of a picture</p>
+                  
+                </div>
+            </header>
 
-                <button>Add!</button>
-        </form>
+
+
     </div>
-    <a href='/campground'>Go back</a>
+
+    <div class='container'>
+        <div class='row'>
+            <div id="newCampForm">
+                <form action='/campgrounds' method='POST'>
+
+                        Campground name: <input class='form-control' name='name' type='textbox' placeholder='Saint-Nowhere'><br>
+                        Campground Image url: <input class='form-control' name='image' type='textbox' placeholder='image URL'><br>
+                                <!-- btn-block gives button full width. btn-primary (v. btn-default) makes buton blue -->
+                        <button class='btn btn-lg btn-primary btn-block'>Add!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <a class='btn btn-primary btn-md' href='/campgrounds' id='addBackBtn'>Go back</a>
 
 <% include partials/footer  %>

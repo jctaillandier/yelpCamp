@@ -19,6 +19,30 @@ var data = [
     {
         name: 'Saint Goat',
         image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-0.3.5&s=2e80ca86a30db7be648da0d9b9e21fae&auto=format&fit=crop&w=1950&q=80'
+    },
+    {
+        name: 'salmon creek',
+        image:'https://images.unsplash.com/photo-1504851149312-7a075b496cc7?ixlib=rb-0.3.5&s=2e8ad7a67f7c66a7440d86f0a711aa26&auto=format&fit=crop&w=649&q=80'
+    },
+    {
+        name:'Saint Michel des saints',
+        image: 'https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5cedc6b95f731395da7269d2341f9a5e&auto=format&fit=crop&w=1050&q=80'
+    },
+    {
+        name: 'Saint Goat',
+        image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-0.3.5&s=2e80ca86a30db7be648da0d9b9e21fae&auto=format&fit=crop&w=1950&q=80'
+    },
+    {
+        name: 'salmon creek',
+        image:'https://images.unsplash.com/photo-1504851149312-7a075b496cc7?ixlib=rb-0.3.5&s=2e8ad7a67f7c66a7440d86f0a711aa26&auto=format&fit=crop&w=649&q=80'
+    },
+    {
+        name:'Saint Michel des saints',
+        image: 'https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5cedc6b95f731395da7269d2341f9a5e&auto=format&fit=crop&w=1050&q=80'
+    },
+    {
+        name: 'Saint Goat',
+        image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-0.3.5&s=2e80ca86a30db7be648da0d9b9e21fae&auto=format&fit=crop&w=1950&q=80'
     }
 ]
 
@@ -38,12 +62,12 @@ app.post('/campgrounds', function(req,res){
     //get data from form, add campground to DB, redirect back
     var newname = req.body.name;
     var newimage = req.body.image;
-
-    data.push({
-        name: newname,
-        image: newimage
-    });
-
+    if(newname != ''){
+        data.push({
+            name: newname,
+            image: newimage
+        });
+    }
     //redirect defaults a GET request, so no issue there
     res.redirect('/campgrounds');
 });

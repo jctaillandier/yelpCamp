@@ -1,0 +1,32 @@
+img{
+    height:200px;
+    width:250px;
+}
+#campGrid{
+    /* This aligns the Bstrap grid 
+    even thoguh images are not same size.
+    Without it tall images would use 2 rows, messing up the grid
+    ******************************/
+    display:flex;
+    flex-wrap:wrap;
+    /****************************/
+}
+/****************** Add new Campsite page ********************/
+.jumbotron{
+    background-color:blue;
+}
+
+#addCampJumbotron{
+    text-align: center;
+}
+
+#newCampForm{
+    width:30%;
+    margin: 0 auto;
+}
+#addBackBtn{
+    margin-left:20px;
+}
+
+/***************************************************************/
+
