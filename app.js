@@ -8,7 +8,8 @@ mongoose.connect('mongodb://localhost/yelp_camp');
 
 var campgroundSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
 
 var Campground = mongoose.model('Campground', campgroundSchema);
@@ -16,7 +17,8 @@ var Campground = mongoose.model('Campground', campgroundSchema);
 // Campground.create(
 //     {
 //         name:'Saint Michel des saints',
-//         image: 'https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5cedc6b95f731395da7269d2341f9a5e&auto=format&fit=crop&w=1050&q=80'
+//         image: 'https://images.unsplash.com/photo-1508873696983-2dfd5898f08b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5cedc6b95f731395da7269d2341f9a5e&auto=format&fit=crop&w=1050&q=80',
+//         description: 'Peaceful place 2 hours north of Montreal. Ideal to reconnect with nature'
 //     }    ,  function(err, campground){
 //             if(err){
 //                 console.log(err);
@@ -34,29 +36,34 @@ app.use(bodyparser.urlencoded({extended:true}));
 app.get('/', function(req,res){
     res.render('index');
 });
+
+// INDEX - Show all Campgrounds
 app.get('/campgrounds', function(req,res){
     Campground.find({}, function(err, allcampgrounds){
         if(err){console.log(err)
         } else{
-            res.render('campgrounds', {data:allcampgrounds});
+            res.render('index', {data:allcampgrounds});
         }
     })
 });
-//restfull 
+// NEW - displays form to add new campground 
 app.get('/campgrounds/new' , function(req,res){
     res.render('new');
-})
+});
 
-//restfull
+// CREATE - add new dog to DB
 app.post('/campgrounds', function(req,res){
     //get data from form, add campground to DB, redirect back
     var newname = req.body.name;
     var newimage = req.body.image;
+    var newdesc = req.body.description;
+
     if((newname != '') && (newimage != "")){
-        Campground.insertMany(
+        Campground.create(
             {
                 name: newname,
-                image: newimage
+                image: newimage,
+                description: newdesc
             }, function(err, campground){
                 if(err){
                     console.log('could not inser to database..');
@@ -70,6 +77,18 @@ app.post('/campgrounds', function(req,res){
     }  
     
 });
+
+// SHOW - show page of specified ID - HAs to come after '/campgrounds/anythingElse'
+app.get('/campgrounds/:id', function(req,res){
+    //find 'id' campground
+    Campground.findById(req.params.id, function(err, foundCampground){
+        if(err){console.log(err);}
+        else{
+            //show template with that found id
+            res.render('show', {campground:foundCampground})
+        }
+    });
+})
 
 
 
