@@ -1,0 +1,64 @@
+body{
+    /* background: linear-gradient(to bottom, #606c88, #3f4c6b); 
+    to change background color*/
+
+}
+
+img{
+    height:200px;
+    width:250px;
+}
+#campGrid{
+    /* This aligns the Bstrap grid 
+    even thoguh images are not same size.
+    Without it tall images would use 2 rows, messing up the grid
+    ******************************/
+    display:flex;
+    flex-wrap:wrap;
+    /****************************/
+}
+/****************** Add new Campsite page ********************/
+.jumbotron{
+    height:45vh;
+}
+
+#addCampJumbotron{
+    
+}
+
+#newCampForm{
+    width:30%;
+    margin: 0 auto;
+}
+
+ /***************************************************************/
+/********************* Show Campsite page *********************/
+#commentSection{
+    margin-top:50px;
+}
+.thumbnail img{
+    width:100%;
+    padding:0;
+}
+
+div .thumbnail{
+    padding:0;
+}
+
+
+ /**************************************************************/
+/********************* New Comment Page ***********************/
+
+#sendCommentBtn{
+    margin-top:15px;
+}
+#campName{
+    color:darkblue;
+}
+
+ /***************************************************************/
+/********************* Header Partial *********************/
+
+#navbarMain{ 
+/* Div to change navbar background color */
+}

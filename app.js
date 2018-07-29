@@ -5,7 +5,7 @@ var express      = require('express'),
     mongoose     = require('mongoose'),
     Campground   = require('./models/campground'),
     User         = require('./models/users'),
-    Comment      = require('./models/campground'),
+    Comment      = require('./models/comment'),
     seedDB       = require('./seeds');
 
 mongoose.connect('mongodb://localhost/yelp_camp');
@@ -25,13 +25,15 @@ mongoose.connect('mongodb://localhost/yelp_camp');
 //         });
 
 app.set('view engine', 'ejs') //prevent having to write .ejs
-app.use(express.static('public')) //to fetch css from public
-app.use(bodyparser.urlencoded({extended:true}));
+app.use(express.static(__dirname + '/public')) //to fetch css from public
+app.use(bodyparser.urlencoded({extended:true})); //__dirname returns current file's directory
 
-seedDB();
+            //////////////////////////
+                    seedDB();
+            ////////////////////////
 
 app.get('/', function(req,res){
-    res.render('index');
+    res.redirect('/campgrounds');
 });
 
 // INDEX - Show all Campgrounds
@@ -40,13 +42,13 @@ app.get('/campgrounds', function(req,res){
     Campground.find({}, function(err, allcampgrounds){
         if(err){console.log(err)
         } else{
-            res.render('index', {data:allcampgrounds});
+            res.render('campgrounds/index', {data:allcampgrounds});
         }
     })
 });
 // NEW - displays form to add new campground 
 app.get('/campgrounds/new' , function(req,res){
-    res.render('new');
+    res.render('campgrounds/new');
 });
 
 // CREATE - add new dog to DB
@@ -81,16 +83,48 @@ app.post('/campgrounds', function(req,res){
 // SHOW - show page of specified ID - HAs to come after '/campgrounds/anythingElse'
 app.get('/campgrounds/:id', function(req,res){
     // find 'id' campground AND .populate.exec to add comments
-    // from the other collections
+    // from the other collections, instead of only the mongo ObjectId
     Campground.findById(req.params.id).populate('comments').exec(function(err, foundCampground){
         if(err){console.log(err);}
         else{
             //show template with that found id
             //console.log(foundCampground)
-            res.render('show', {campground:foundCampground})
+            res.render('campgrounds/show', {campground:foundCampground})
         }
     });
-})
+});
+
+//////////////////////////////////////////////////////////////////////
+//////////////////////////Nested COMMENTS routes///////////////////////////////
+
+app.get('/campgrounds/:id/comments/new', function(req,res){
+    //find campground._id and send it with
+    Campground.findById(req.params.id, function(err, campground){
+        if(err){console.log(err)}
+        else{
+            res.render('comments/new', {campground: campground})
+        }
+    });
+});
+app.post('/campgrounds/:id/comments', function(req,res){
+    // Find campground using Id  
+    // Then add comments to it      
+    Campground.findById(req.params.id, function(err, foundCamp){
+        if(err){console.log(err)}
+        else{
+            Comment.create(req.body.comment, function(err, newComment){
+                if(err){console.log(err)}
+                else{
+                    foundCamp.comments.push(newComment);
+                    foundCamp.save();
+                    res.redirect('/campgrounds/'+ foundCamp._id);
+                }
+            });
+        }
+    })
+        
+    
+});
 
 
 
@@ -100,4 +134,4 @@ app.listen(3000, function(){
     console.log('******************************')
     console.log('Listening on port ' + myPort);
     console.log('******************************')
-})
+});

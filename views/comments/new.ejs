@@ -1,0 +1,27 @@
+<% include ../partials/header  %>
+
+<div class='container'>  <!-- Container class gives space on both side -->
+        <header class='jumbotron'>  <!-- Jumbotron is that big thing, default grey, with some styling inside -->
+            <div class='container' id='addCampJumbotron'>
+                <h1>Add new comment to <br> <em id='campName'><%=campground.name %></em> </h1>
+            </div>
+        </header>
+</div>
+
+<div class='container'>
+    <div class='row'>
+        <div id="newCampForm">
+            <form action='/campgrounds/<%= campground._id%>/comments' method='POST'>
+
+                Please share your opinion on the campground: <textarea placeholder='Venue, safety, tips, etc.' required class='form-control' name='comment[text]'></textarea><br>
+                Your Name : <input type='text' name='comment[author]' placeholder='Moe Joe' required>
+                        <!-- btn-block gives button full width. btn-primary (v. btn-default) makes buton blue -->
+                <button id='sendCommentBtn' class='btn btn-lg btn-primary btn-block'>Add Comment!</button>
+            </form>
+        </div>
+    </div>
+</div>
+<hr>
+<a class='btn btn-primary btn-md' href='/campgrounds/<%=campground._id%>' id='addBackBtn'>Go back</a>
+
+<% include ../partials/footer  %>
