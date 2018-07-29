@@ -2,17 +2,16 @@ var express      = require('express'),
     app          = express(),
     bodyparser   = require('body-parser'),
     request      = require('request'),
-    mongoose     = require('mongoose');
+    mongoose     = require('mongoose'),
+    Campground   = require('./models/campground'),
+    User         = require('./models/users'),
+    Comment      = require('./models/campground'),
+    seedDB       = require('./seeds');
+
+
+seedDB();
 
 mongoose.connect('mongodb://localhost/yelp_camp');
-
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-
-var Campground = mongoose.model('Campground', campgroundSchema);
 
 // Campground.create(
 //     {
@@ -39,6 +38,7 @@ app.get('/', function(req,res){
 
 // INDEX - Show all Campgrounds
 app.get('/campgrounds', function(req,res){
+    //process to get all data from DB
     Campground.find({}, function(err, allcampgrounds){
         if(err){console.log(err)
         } else{
@@ -59,6 +59,8 @@ app.post('/campgrounds', function(req,res){
     var newdesc = req.body.description;
 
     if((newname != '') && (newimage != "")){
+        //create new campground object with new data
+        //add it to DB with 'create'
         Campground.create(
             {
                 name: newname,
