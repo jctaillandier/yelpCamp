@@ -1,16 +1,37 @@
 <% include partials/header  %>
+<div class='container'>
+    <h1 class='text-center'>
+        <%= campground.name%>
+    </h1>
 
-<h1>
-    <%= campground.name%>
-</h1>
-
-<div class='text-center'>
-    <img class='img-thumbnail' src="<%=campground.image%>">
-</div>   
-<p class='text-center'>
-    <%=campground.description%>
-</p>
-
+    <div class='text-center'>
+        <img class='img-thumbnail' src="<%=campground.image%>">
+    </div>   
+    <p class='text-center'>
+        <%=campground.description%>
+    </p>
+    <!-- Iterate over the commetns list -->
+    <h4 id='commentSection'> Comment Section </h4> <hr>
+    
+    <div class='container'>
+        <% campground.comments.forEach(function(comment){ %>
+                <div id='commentRows' class='row'>
+                    <dt class='col-md-3'>
+                    <!--here goes the author-->
+                       <strong> <%= comment.author %> </strong>
+                    </dt>
+                    <dd class='col-md-9'>
+                        <!--here goes the commnet-->
+                        | <%= comment.text %>
+                    </dd>
+                </div>
+        <% }); %>
+    </div>
+    <a class='btn btn-primary btn-lg active' href='/comments/new' id='newCommentBtn'> Add a Comment </a>
+</div>
 <br><hr>
-<a class='btn btn-primary btn-md' href='/campgrounds' id='addBackBtn'>Go back</a>
+<div class='container'>
+    <a class='btn btn-primary btn-lg' href='/campgrounds' id='addBackBtn'>Go back</a>
+</div>
+
 <% include partials/footer  %>

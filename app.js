@@ -8,9 +8,6 @@ var express      = require('express'),
     Comment      = require('./models/campground'),
     seedDB       = require('./seeds');
 
-
-seedDB();
-
 mongoose.connect('mongodb://localhost/yelp_camp');
 
 // Campground.create(
@@ -31,6 +28,7 @@ app.set('view engine', 'ejs') //prevent having to write .ejs
 app.use(express.static('public')) //to fetch css from public
 app.use(bodyparser.urlencoded({extended:true}));
 
+seedDB();
 
 app.get('/', function(req,res){
     res.render('index');
@@ -82,11 +80,13 @@ app.post('/campgrounds', function(req,res){
 
 // SHOW - show page of specified ID - HAs to come after '/campgrounds/anythingElse'
 app.get('/campgrounds/:id', function(req,res){
-    //find 'id' campground
-    Campground.findById(req.params.id, function(err, foundCampground){
+    // find 'id' campground AND .populate.exec to add comments
+    // from the other collections
+    Campground.findById(req.params.id).populate('comments').exec(function(err, foundCampground){
         if(err){console.log(err);}
         else{
             //show template with that found id
+            //console.log(foundCampground)
             res.render('show', {campground:foundCampground})
         }
     });

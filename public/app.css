@@ -24,9 +24,15 @@ img{
     width:30%;
     margin: 0 auto;
 }
-#addBackBtn{
-    margin-left:20px;
-}
 
 /***************************************************************/
-
+/****************** Show Campsite page ********************/
+#commentSection{
+    margin-top:50px;
+}
+#commentRows{
+    margin-top:40px;
+}
+#newCommentBtn{
+    margin-top:150px;
+}
