@@ -3,6 +3,9 @@ var express      = require('express'),
     bodyparser   = require('body-parser'),
     request      = require('request'),
     mongoose     = require('mongoose'),
+    passport     = require('passport'),
+    LocalStrategy= require('passport-local'),
+    user         = require('./models/users')
     Campground   = require('./models/campground'),
     User         = require('./models/users'),
     Comment      = require('./models/comment'),
@@ -28,9 +31,33 @@ app.set('view engine', 'ejs') //prevent having to write .ejs
 app.use(express.static(__dirname + '/public')) //to fetch css from public
 app.use(bodyparser.urlencoded({extended:true})); //__dirname returns current file's directory
 
+
             //////////////////////////
                     seedDB();
             ////////////////////////
+
+
+///////PASSPORT CONFIGURATION///////
+app.use(require('express-session')({
+    secret:'ham cheese meal veal socket blue water',
+    resave: false,
+    saveUninitialized:false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+////////////////////////////////////////////
+//Middleware that will run for everysingle code
+// to send currentUser var all the time
+app.use(function(req,res,next){
+    res.locals.currentUser = req.user;
+    next();
+});
+
+/////////////////////////////////////////
+////////////////ROUTES//////////////////
 
 app.get('/', function(req,res){
     res.redirect('/campgrounds');
@@ -38,6 +65,7 @@ app.get('/', function(req,res){
 
 // INDEX - Show all Campgrounds
 app.get('/campgrounds', function(req,res){
+    
     //process to get all data from DB
     Campground.find({}, function(err, allcampgrounds){
         if(err){console.log(err)
@@ -47,12 +75,12 @@ app.get('/campgrounds', function(req,res){
     })
 });
 // NEW - displays form to add new campground 
-app.get('/campgrounds/new' , function(req,res){
+app.get('/campgrounds/new' , isloggedIn, function(req,res){
     res.render('campgrounds/new');
 });
 
-// CREATE - add new dog to DB
-app.post('/campgrounds', function(req,res){
+// CREATE - add new campground to DB
+app.post('/campgrounds', isloggedIn ,function(req,res){
     //get data from form, add campground to DB, redirect back
     var newname = req.body.name;
     var newimage = req.body.image;
@@ -97,7 +125,7 @@ app.get('/campgrounds/:id', function(req,res){
 //////////////////////////////////////////////////////////////////////
 //////////////////////////Nested COMMENTS routes///////////////////////////////
 
-app.get('/campgrounds/:id/comments/new', function(req,res){
+app.get('/campgrounds/:id/comments/new', isloggedIn , function(req,res){
     //find campground._id and send it with
     Campground.findById(req.params.id, function(err, campground){
         if(err){console.log(err)}
@@ -106,7 +134,7 @@ app.get('/campgrounds/:id/comments/new', function(req,res){
         }
     });
 });
-app.post('/campgrounds/:id/comments', function(req,res){
+app.post('/campgrounds/:id/comments',isloggedIn ,function(req,res){
     // Find campground using Id  
     // Then add comments to it      
     Campground.findById(req.params.id, function(err, foundCamp){
@@ -126,6 +154,45 @@ app.post('/campgrounds/:id/comments', function(req,res){
     
 });
 
+//////////////////////////////////////////
+//////////////AUTH ROUTES////////////////
+
+/*  ----- SignUp / register ------ */
+app.get('/register', function(req,res){
+    res.render('register')
+});
+app.post('/register', function(req,res){
+    var newUserName = new User({username:req.body.username});
+
+    User.register(newUserName, req.body.password, function(err,user){
+        if(err){
+            console.log('error creating user:')
+            console.log(err);
+            res.render('/register');
+        }
+        passport.authenticate('local')(req,res,function(){
+            res.redirect('/campgrounds');
+        });
+    });
+});
+
+/*  ----- Login ------ */
+app.get('/login', function(req,res){
+    res.render('login')
+});
+//use of middleware for authentication
+app.post('/login', passport.authenticate('local',{
+    successRedirect: '/campgrounds',
+    failureRedirect:'/login'
+}) , function(req,res){
+
+});
+
+/*  ----- Logout ------ */
+app.get('/logout', function(req,res){
+    req.logout();
+    res.redirect('/campgrounds')
+})
 
 
 var myPort = 3000;
@@ -135,3 +202,14 @@ app.listen(3000, function(){
     console.log('Listening on port ' + myPort);
     console.log('******************************')
 });
+
+
+/*  ----- Logout ------ */
+function isloggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    else{
+        res.redirect('/login')
+    }
+}

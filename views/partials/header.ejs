@@ -19,9 +19,15 @@
             <div class='collapse navbar-collapse'>
                 <!-- Those *3* classes make a top right (navbar-left for left) navbar options -->
                 <ul class='nav navbar-nav navbar-right'>
-                    <li><a href='/campgrounds'>Login</a></li>
-                    <li><a href='/campgrounds'>Sign Up</a></li>
-                    <li><a href='/campgrounds'>Log Out</a></li>
+                    <!-- Here is logic to make right a tags appear depending on session status -->
+                    <% if(!currentUser){ %>
+                        <li><a href='/login'>Login</a></li>
+                        <li><a href='/register'>Sign Up</a></li>
+                    <% }
+                      else{ %>
+                        <li><a href='#'>Currently signed in as <%= currentUser.username %></a></li>
+                        <li><a href='/logout'>Log Out</a></li>
+                    <% } %>
                 </ul>
             </div>
         </div>
