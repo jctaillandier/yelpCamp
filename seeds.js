@@ -33,27 +33,27 @@ function seedDB(){
         console.log('removed campgrounds!');
         
         //add a few campgrounds from 'data'
-        data.forEach(function(seed){
-            Campground.create(seed, function(err, campground){
-                if(err){console.log(err)}
-                else{
-                    console.log('added a campground');
+        // data.forEach(function(seed){
+        //     Campground.create(seed, function(err, campground){
+        //         if(err){console.log(err)}
+        //         else{
+        //             console.log('added a campground');
 
-                    //create comment on each (same comment on each campgrounds)
-                    Comment.create({
-                        text:'This place is the best!',
-                        author:'Homer'
-                    }, function(err,comment){
-                        if(err){console.log(err)}
-                        else{
-                            campground.comments.push(comment);
-                            campground.save();
-                            console.log('created new comments')
-                        }
-                    })
-                }
-            });
-        });
+        //             //create comment on each (same comment on each campgrounds)
+        //             Comment.create({
+        //                 text:'This place is the best!',
+        //                 author:'Homer'
+        //             }, function(err,comment){
+        //                 if(err){console.log(err)}
+        //                 else{
+        //                     campground.comments.push(comment);
+        //                     campground.save();
+        //                     console.log('created new comments')
+        //                 }
+        //             })
+        //         }
+        //     });
+        // });
         
     });
     
