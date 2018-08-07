@@ -1,0 +1,31 @@
+<% include ../partials/header  %>
+
+    <div class='container'>  <!-- Container class gives space on both side -->
+            <header class='jumbotron'>  <!-- Jumbotron is that big thing, default grey, with some styling inside -->
+                <div class='container' id='addCampJumbotron'>
+                    <h1>Edit <%= campground.name %></h1>
+
+                    <p>Edit the name of the Camp site, change the url of the picture and/or the description</p>
+                  
+                </div>
+            </header>
+    </div>
+
+    <div class='container'>
+        <div class='row'>
+            <div id="newCampForm">
+                <form action='/campgrounds/<%= campground._id%>?_method=PUT' method='POST'>
+
+                        Campground name: <input class='form-control' name='campground[name]' type='textbox' value='<%= campground.name %>'><br>
+                        Campground Image url: <input class='form-control' name='campground[image]' type='textbox' value='<%= campground.image %>'><br>
+                        Campground Description: <textarea class='form-control' name='campground[description]'><%= campground.description %></textarea><br>
+                                <!-- btn-block gives button full width. btn-primary (v. btn-default) makes buton blue -->
+                        <button class='btn btn-lg btn-primary btn-block'>Update!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <a class='btn btn-primary btn-md' href='/campgrounds' id='addBackBtn'>Go back</a>
+
+<% include ../partials/footer  %>

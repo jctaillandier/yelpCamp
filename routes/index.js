@@ -5,7 +5,7 @@ var express= require('express')
 var User = require('../models/users')
 
 router.get('/', function(req,res){
-    res.redirect('/campgrounds');
+    res.render('campgrounds/landing');
 });
 
 //////////////////////////////////////////

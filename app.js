@@ -9,7 +9,8 @@ var express      = require('express'),
     Campground   = require('./models/campground'),
     User         = require('./models/users'),
     Comment      = require('./models/comment'),
-    seedDB       = require('./seeds');
+    seedDB       = require('./seeds'),
+    methodOverride= require('method-override');
 
     // Routes files
     var commentRoutes = require('./routes/comments'),
@@ -21,6 +22,7 @@ mongoose.connect('mongodb://localhost/yelp_camp');
 app.set('view engine', 'ejs') //prevent having to write .ejs
 app.use(express.static(__dirname + '/public')) //to fetch css from public
 app.use(bodyparser.urlencoded({extended:true})); //__dirname returns current file's directory
+app.use(methodOverride('_method'));
 
 
     //////////////////////////

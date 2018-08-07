@@ -44,6 +44,9 @@ img{
 div .thumbnail{
     padding:0;
 }
+/* #updateDelete{
+    display: inline;
+} */
 
 
  /**************************************************************/
@@ -69,5 +72,7 @@ div .thumbnail{
 .authForm{
     width:80%;
     margin:0 auto;
-    background-color: grey !important;
+    text-align: center;
+    height:120%;
+    width:50%;
 }
