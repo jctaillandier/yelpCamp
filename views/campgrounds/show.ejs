@@ -27,13 +27,15 @@
                     </p>
                                         <!-- href to user profile in future -->
                     <h4> <em>Campground added by <a href='#'> <%= campground.author.username %></a></em></h4>
-                    
-                        <p>
-                            <a class='btn btn-warning' href='/campgrounds/<%= campground._id %>/edit'>Update Campground</a> 
-                            <form id='updateDelete' action='/campgrounds/<%=campground._id%>?_method=DELETE' method='POST'>
-                                <button class='btn btn-danger'>Delete</button>
-                            </form>
-                        </p>
+                        <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
+                            <p>
+                                <a class='btn btn-warning' href='/campgrounds/<%= campground._id %>/edit'>Update Campground</a> 
+                                <form id='updateDelete' action='/campgrounds/<%=campground._id%>?_method=DELETE' method='POST'>
+                                    <button class='btn btn-danger'>Delete</button>
+                                </form>
+                            </p>
+                        <%}%>
+
                 </div>
             </div>
                 <!-- Iterate over the commetns list -->

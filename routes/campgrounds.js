@@ -26,7 +26,15 @@ router.get('/campgrounds/new' , isloggedIn, function(req,res){
 // CREATE - add new campground to DB
 router.post('/campgrounds', isloggedIn ,function(req,res){
     //get data from form, add campground to DB, redirect back
-    var newCamp = req.body.campground
+    var newCamp = {
+        name:  req.body.name,
+        image: req.body.image,
+        description: req.body.description,
+        author: {
+            id: req.user._id,
+            username: req.user.username
+        }
+    }
         //create new campground object with new data
         //add it to DB with 'create'
         Campground.create(newCamp, function(err, campground){
