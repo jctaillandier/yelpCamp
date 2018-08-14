@@ -1,6 +1,6 @@
 var express= require('express')
     router = express.Router();
-var campground = require('../models/campground'),
+var Campground = require('../models/campground'),
     comment = require('../models/comment')
     
     

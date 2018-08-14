@@ -1,0 +1,26 @@
+<% include ../partials/header  %>
+
+<div class='container'>  <!-- Container class gives space on both side -->
+        <header class='jumbotron'>  <!-- Jumbotron is that big thing, default grey, with some styling inside -->
+            <div class='container' id='addCampJumbotron'>
+                <h1>Edit comment</h1>
+            </div>
+        </header>
+</div>
+
+<div class='container'>
+    <div class='row'>
+        <div id="newCampForm">
+            <form action='/campgrounds/<%= campground_id%>/comments/<%= comment._id%>?_method=PUT' method='POST'>
+
+                Please share your opinion on the campground: <textarea required class='form-control' name='comment[text]'><%= comment.text %></textarea><br>
+                        <!-- btn-block gives button full width. btn-primary (v. btn-default) makes buton blue -->
+                <button id='sendCommentBtn' class='btn btn-lg btn-primary btn-block'>Update Comment!</button>
+            </form> 
+        </div>
+    </div>
+</div>
+<hr>
+<a class='btn btn-primary btn-md' href='/campgrounds/<%=campground_id%>' id='addBackBtn'>Go back</a>
+
+<% include ../partials/footer  %>

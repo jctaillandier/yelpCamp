@@ -1,8 +1,8 @@
 var express= require('express')
     router = express.Router();
 
-var comments = require('../models/comment'),
-    campground = require('../models/campground');
+var Comment = require('../models/comment'),
+    Campground = require('../models/campground');
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////Nested COMMENTS routes///////////////////////////////
@@ -35,24 +35,78 @@ router.post('/campgrounds/:id/comments',isloggedIn ,function(req,res){
                     //save comment
                     foundCamp.comments.push(newComment);
                     foundCamp.save();
-                    res.redirect('/campgrounds/'+ foundCamp._id);
+                    res.redirect('/campgrounds/'+ req.params.id);
                 }
             });
         }
     })
-        
-    
+});
+
+// EDIT route 
+router.get('/campgrounds/:id/comments/:commentId/edit', checkCommentOwnership, function(req,res){
+    Comment.findById(req.params.commentId, function(err, foundComment){
+        if(err){
+            console.log(err);
+            res.redirect('/campgrounds'+ req.params.id)
+        }
+        else{
+            res.render('comments/edit', {campground_id : req.params.id, comment:foundComment});
+        }
+    })
+});
+//UPDATE route
+router.put('/campgrounds/:id/comments/:commentId', checkCommentOwnership, function(req,res){
+    Comment.findByIdAndUpdate(req.params.commentId, req.body.comment , function(err,foundComment){
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/campgrounds/'+ req.params.id);
+    });
+});
+
+//DESTROY route
+router.delete('/campgrounds/:id/comments/:commentId',checkCommentOwnership, function(req,res){
+    Comment.findByIdAndRemove(req.params.commentId, function(err, deletedComment){
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/campgrounds/' + req.params.id);
+    })
 });
 
 
 
-/*  ----- Logout ------ */
+/*  ----- Middleware ------ */
 function isloggedIn(req,res,next){
     if(req.isAuthenticated()){
         return next();
     }
     else{
         res.redirect('/login')
+    }
+}
+
+function checkCommentOwnership(req,res,next){
+       //is user logged in?
+       if(req.isAuthenticated()){
+        Comment.findById(req.params.commentId, function(err,foundComment){
+            if(err){
+                console.log(err)
+            }
+            else{
+                //does user own the post? (.equals is mongoose method, cant do === becasue not same object type)
+                if(foundComment.author.id.equals(req.user._id)){
+                    next();
+                }
+                else{
+                    res.redirect('back')
+                }
+            }
+        });
+    }
+    else{
+        //sends a page baack
+        res.redirect('back')
     }
 }
 
