@@ -29,6 +29,7 @@ router.post('/campgrounds', middleware.isloggedIn ,function(req,res){
     //get data from form, add campground to DB, redirect back
     var newCamp = {
         name:  req.body.name,
+        price: req.body.price,
         image: req.body.image,
         description: req.body.description,
         author: {

@@ -17,6 +17,7 @@
                 <form action='/campgrounds/<%= campground._id%>?_method=PUT' method='POST'>
 
                         Campground name: <input class='form-control' name='campground[name]' type='textbox' value='<%= campground.name %>'><br>
+                        Campground Price: <input class='form-control' name='campground[price]' type='textbox' value='<%= campground.price %>' step='1'><br>
                         Campground Image url: <input class='form-control' name='campground[image]' type='textbox' value='<%= campground.image %>'><br>
                         Campground Description: <textarea class='form-control' name='campground[description]'><%= campground.description %></textarea><br>
                                 <!-- btn-block gives button full width. btn-primary (v. btn-default) makes buton blue -->
