@@ -2,6 +2,7 @@ var express      = require('express'),
     app          = express(),
     bodyparser   = require('body-parser'),
     request      = require('request'),
+    flash        = require('connect-flash'),
     mongoose     = require('mongoose'),
     passport     = require('passport'),
     LocalStrategy= require('passport-local'),
@@ -19,6 +20,7 @@ var express      = require('express'),
 
 mongoose.connect('mongodb://localhost/yelp_camp');
 
+app.use(flash());
 app.set('view engine', 'ejs') //prevent having to write .ejs
 app.use(express.static(__dirname + '/public')) //to fetch css from public
 app.use(bodyparser.urlencoded({extended:true})); //__dirname returns current file's directory
@@ -44,10 +46,12 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 ////////////////////////////////////////////
 
-//Middleware that will run for everysingle code
-// to send currentUser var all the time
+/////// ----  Middleware that will run for everysingle route calls
+//                  to send currentUser var all the time
 app.use(function(req,res,next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash('success');
     next();
 });
 

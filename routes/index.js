@@ -14,18 +14,19 @@ router.get('/', function(req,res){
 
 /*  ----- SignUp / register ------ */
 router.get('/register', function(req,res){
-    res.render('register')
+    res.render('register');
 });
 router.post('/register', function(req,res){
     var newUserName = new User({username:req.body.username});
 
     User.register(newUserName, req.body.password, function(err,user){
         if(err){
-            console.log('error creating user:')
+            req.flash('error', err.message);
             console.log(err);
-            res.render('/register');
+             res.redirect('/register');
         }
         passport.authenticate('local')(req,res,function(){
+            req.flash('success','Welcome to Yelp Camp ' + user.username);
             res.redirect('/campgrounds');
         });
     });
@@ -33,7 +34,7 @@ router.post('/register', function(req,res){
 
 /*  ----- Login ------ */
 router.get('/login', function(req,res){
-    res.render('login')
+    res.render('login', {message: req.flash('error')})
 });
 //use of middleware for authentication
 router.post('/login', passport.authenticate('local',{
@@ -45,6 +46,7 @@ router.post('/login', passport.authenticate('local',{
 
 /*  ----- Logout ------ */
 router.get('/logout', function(req,res){
+    req.flash("success", 'You just logged out');
     req.logout();
     res.redirect('/campgrounds')
 });

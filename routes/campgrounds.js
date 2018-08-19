@@ -40,7 +40,6 @@ router.post('/campgrounds', middleware.isloggedIn ,function(req,res){
         //add it to DB with 'create'
         Campground.create(newCamp, function(err, campground){
                 if(err){
-                    console.log('could not inser to database..');
                     console.log(err);
                 }
                 else{
@@ -69,6 +68,9 @@ router.get('/campgrounds/:id', function(req,res){
 router.get('/campgrounds/:id/edit', middleware.checkOwnership , function(req,res){
 
     Campground.findById(req.params.id, function(err, foundCampground){
+        if(err){
+            req.flash('error','Could not find campground to edit');
+        }
         res.render('campgrounds/edit', {campground : foundCampground});            
     });
     
@@ -81,7 +83,8 @@ router.put('/campgrounds/:id', middleware.checkOwnership , function(req,res){
     Campground.findByIdAndUpdate(req.params.id, req.body.campground ,function(err,updatedCampground){
         if(err){
             console.log(err)
-            res.redirect('/campgrounds')
+            req.flash('error','Could not find campground to update')
+            res.redirect('/campgrounds');
         }
         else{ 
             res.redirect('/campgrounds/' + updatedCampground._id );
@@ -96,7 +99,7 @@ router.delete('/campgrounds/:id', middleware.checkOwnership , function(req,res){
         if(err){
             console.log(err);
         }
-        res.redirect('/campgrounds')
+        res.redirect('/campgrounds');
     });
 });
 

@@ -17,6 +17,10 @@ img{
     flex-wrap:wrap;
     /****************************/
 }
+
+
+
+
 /****************** Add new Campsite page ********************/
 .jumbotron{
 }
@@ -65,6 +69,7 @@ div .thumbnail{
 
 #navbarMain{ 
 /* Div to change navbar background color */
+    z-index: 1;
 }
 
  /***************************************************************/
