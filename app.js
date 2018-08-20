@@ -59,11 +59,6 @@ app.use(indexRoutes);
 app.use(campgroundRoutes);
 app.use(commentRoutes);
 
-var myPort = 3000;
-app.listen(myPort, function(){
-    console.log();
-    console.log('******************************')
-    console.log('Listening on port ' + myPort);
-    console.log('******************************')
-});
+
+app.listen(process.env.PORT, process.env.IP);
 
