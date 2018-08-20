@@ -18,7 +18,8 @@ var express      = require('express'),
         campgroundRoutes = require('./routes/campgrounds'),
         indexRoutes = require('./routes/index')
 
-mongoose.connect('mongodb://localhost/yelp_camp');
+// mongoose.connect('mongodb://localhost/yelp_camp');
+mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds125872.mlab.com:25872/yelpcamp2905');
 
 app.use(flash());
 app.set('view engine', 'ejs') //prevent having to write .ejs
