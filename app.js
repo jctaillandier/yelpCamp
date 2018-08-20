@@ -19,7 +19,7 @@ var express      = require('express'),
         indexRoutes = require('./routes/index')
 
 // mongoose.connect('mongodb://localhost/yelp_camp');
-mongoose.connect('mongodb://<jctaillandier>:<dbpassword>@Taillandier1.mlab.com:25872/yelpcamp2905');
+mongoose.connect('mongodb://jctaillandier:Taillandier1@ds125872.mlab.com:25872/yelpcamp2905');
 
 app.use(flash());
 app.set('view engine', 'ejs') //prevent having to write .ejs
