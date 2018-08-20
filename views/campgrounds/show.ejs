@@ -26,7 +26,7 @@
                         <%=campground.description%>
                     </p>
                                         <!-- href to user profile in future -->
-                    <h4> <em>Campground added by <a href='#'> <%= campground.author.username %></a></em></h4>
+                    <h4> <em>Campground added by <a href='#'> <%= campground.author.username %></a>, <%= moment(campground.createdAt).fromNow() %></em></h4>
                         <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
                             <p>
                                 <a class='btn btn-warning' href='/campgrounds/<%= campground._id %>/edit'>Update Campground</a> 
@@ -50,7 +50,7 @@
                     <div id='commentRows' class='row'>
                         <div class='col-md-12'>
                             <strong><%= comment.author.username %> </strong>
-                            <span class='pull-right'> 10 days ago </span>
+                            <span class='pull-right'> <%= moment(comment.createdAt).fromNow() %> </span>
                             <p>
                                 <%= comment.text %>
                             </p>

@@ -25,7 +25,7 @@ app.set('view engine', 'ejs') //prevent having to write .ejs
 app.use(express.static(__dirname + '/public')) //to fetch css from public
 app.use(bodyparser.urlencoded({extended:true})); //__dirname returns current file's directory
 app.use(methodOverride('_method'));
-
+app.locals.moment = require('moment');
 
     //////////////////////////
            // seedDB();
@@ -60,7 +60,7 @@ app.use(campgroundRoutes);
 app.use(commentRoutes);
 
 var myPort = 3000;
-app.listen(3000, function(){
+app.listen(myPort, function(){
     console.log();
     console.log('******************************')
     console.log('Listening on port ' + myPort);
